@@ -3,6 +3,8 @@ package tech.devinhouse.devgram.config;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -63,6 +65,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler  {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
     }
 
+    @Override   // catch any other exception for standard error message handling
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ErroResponse erro = new ErroResponse(ex.getMessage());
+        return new ResponseEntity<>(erro, headers, status);
+    }
 
 
 }
