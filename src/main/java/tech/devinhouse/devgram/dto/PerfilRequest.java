@@ -2,8 +2,12 @@ package tech.devinhouse.devgram.dto;
 
 import lombok.Data;
 import tech.devinhouse.devgram.model.Status;
+import tech.devinhouse.devgram.validator.ValorDeEnum;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Data
@@ -24,7 +28,11 @@ public class PerfilRequest {
     @Size(min = 4, max = 20, message = "{campo.invalido}")
     private String profissao;
 
+//    @NotNull(message = "{campo.obrigatorio}")
+//    private Status status;
+
     @NotNull(message = "{campo.obrigatorio}")
-    private Status status;
+    @ValorDeEnum(enumClass = Status.class, message = "{campo.invalido}")
+    private String status;
 
 }
